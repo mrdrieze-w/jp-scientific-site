@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Contact Us | JP Scientific Ltd.</title>
+    <meta name="description" content="Get in touch with JP Scientific — ask a question, request pricing, or tell us about your application.">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container { max-width: 620px; }
+        #form-success { display: none; }
+        #form-error { display: none; color: #b23b3b; font-size: 0.85rem; margin-top: 0.6rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="index.html">
+                <img src="logo.png" alt="JP Scientific Ltd. Logo" class="site-logo">
+            </a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="products.html">Products</a>
+                <a href="applications.html">Applications</a>
+                <a href="inquiry.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 id="page-heading">Contact Us</h1>
+        <p id="page-intro">Tell us how we can help! Ask a question, request pricing, or describe your application and we'll get back to you shortly.</p>
+
+        <div class="inquiry-box">
+            <span class="inquiry-device" id="device-tag" style="display:none;"></span>
+
+            <!--
+                FORMSPREE SETUP (one-time, ~2 minutes):
+                1. Go to https://formspree.io and sign up free (50 submissions/month).
+                2. Create a new form, and set the notification email to spme.jps@gmail.com.
+                3. Formspree gives you an endpoint like https://formspree.io/f/abcd1234
+                4. Replace YOUR_FORM_ID below (in the fetch call, near the bottom of this
+                   file) with that ID. That's it — submissions will land straight in the
+                   inbox with no email client required.
+                Until that ID is filled in, the form will show an error on submit.
+            -->
+            <form id="inquiry-form">
+                <div class="form-names">
+                    <div class="form-row">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" name="first-name" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" name="last-name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+                <div class="form-row">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-row">
+                    <label for="application" id="application-label">How Can We Help?</label>
+                    <textarea id="application" name="application" placeholder="Tell us what you're working on and how we can help." required></textarea>
+                </div>
+                <button type="submit" class="btn" id="submit-btn">Send Message</button>
+                <p id="form-success">Thank you, your message has been sent. We'll be in touch soon.</p>
+                <p id="form-error">Something went wrong sending your message. Please try again, or email us directly at spme.jps@gmail.com.</p>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>JP Scientific Ltd.</h3>
+                <p>Supplying premium SPME devices, holders, and accessories to research labs and testing facilities.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="products.html">SPME Products</a>
+                <a href="applications.html">Applications</a>
+                <a href="inquiry.html">Contact Us</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <p><strong>Email:</strong> <a href="mailto:spme.jps@gmail.com" style="display:inline;">spme.jps@gmail.com</a></p>
+                <p><strong>Location:</strong> Canada</p>
+                <p><strong>Support:</strong> Mon–Fri, 9am–5pm EST</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 JP Scientific Ltd. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Pull the device name from the URL (?device=...) if the person arrived from a
+        // specific hardware card. When present, this page presents itself as a
+        // "Product Inquiry" for that device; otherwise it's a general contact form.
+        var params = new URLSearchParams(window.location.search);
+        var device = params.get('device');
+        if (device) {
+            document.getElementById('page-title').textContent = 'Product Inquiry | JP Scientific Ltd.';
+            document.getElementById('page-heading').textContent = 'Product Inquiry';
+            document.getElementById('page-intro').textContent =
+                'This hardware is still in development — tell us about your application and we\'ll reach out as soon as it\'s available.';
+            document.getElementById('application-label').textContent = 'Describe Your Application';
+
+            var tag = document.getElementById('device-tag');
+            tag.textContent = 'Inquiring about: ' + device;
+            tag.style.display = 'inline-block';
+
+            // Carry the device name through as a hidden field so it lands in the
+            // Formspree notification email alongside the rest of the fields.
+            var hidden = document.createElement('input');
+            hidden.type = 'hidden';
+            hidden.name = 'device';
+            hidden.value = device;
+            document.getElementById('inquiry-form').appendChild(hidden);
+        }
+
+        // Submits to Formspree so messages land directly in the connected inbox —
+        // no mail client required on the visitor's end. See the setup comment above
+        // the <form> tag for how to get your endpoint ID.
+        var FORMSPREE_ENDPOINT = 'https://formspree.io/f/mdeoqbzj';
+
+        document.getElementById('inquiry-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var form = e.target;
+            var submitBtn = document.getElementById('submit-btn');
+            var successMsg = document.getElementById('form-success');
+            var errorMsg = document.getElementById('form-error');
+
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending…';
+
+            fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+            })
+                .then(function (response) {
+                    if (response.ok) {
+                        form.reset();
+                        successMsg.style.display = 'block';
+                    } else {
+                        errorMsg.style.display = 'block';
+                    }
+                })
+                .catch(function () {
+                    errorMsg.style.display = 'block';
+                })
+                .finally(function () {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Message';
+                });
+        });
+    </script>
+</body>
+</html>
